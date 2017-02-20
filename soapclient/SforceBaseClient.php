@@ -489,7 +489,7 @@ class SforceBaseClient {
 	protected function _convertToAny($fields) {
 		$anyString = '';
 		foreach ($fields as $key => $value) {
-			$anyString = $anyString . '<' . $key . '>' . $value . '</' . $key . '>';
+			$anyString = $anyString . '<' . $key . '>' . htmlentities($value) . '</' . $key . '>';
 		}
 		return $anyString;
 	}
