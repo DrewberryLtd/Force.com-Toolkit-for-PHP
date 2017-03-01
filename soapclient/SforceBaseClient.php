@@ -486,13 +486,19 @@ class SforceBaseClient {
 		return $this->sforce->__getLastResponseHeaders();
 	}
 
-	protected function _convertToAny($fields) {
-		$anyString = '';
-		foreach ($fields as $key => $value) {
-			$anyString = $anyString . '<' . $key . '>' . htmlentities($value) . '</' . $key . '>';
-		}
-		return $anyString;
-	}
+    protected function _convertToAny($fields) {
+        $anyString = '';
+        foreach ($fields as $key => $value) {
+            $key = $this->_makeValuesAcceptable($key);
+            $anyString = $anyString . '<' . $key . '>' . $this->_makeValuesAcceptable($value) . '</' . $key . '>';
+        }
+        return $anyString;
+    }
+
+    protected function _makeValuesAcceptable($value)
+    {
+        return str_ireplace(['&pound;'], '', htmlentities($value));
+    }
 
 	protected function _create($arg) {
 		$this->setHeaders("create");
